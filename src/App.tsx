@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Typography from "@mui/material/Typography";
+import { styled, useTheme } from "@mui/material/styles";
 
-function App() {
+export const classes = {
+  root: "mf-demo-root",
+  text: "mf-demo-text"
+};
+export const testIds = classes;
+const StyledRoot = styled("div")(({ theme }) => {
+  console.log(`Theme: ${theme.palette.mode}`);
+  return {
+    [`&.${classes.root}`]: {
+      backgroundColor:
+        theme.palette.mode === "dark"
+          ? theme.palette.grey[900]
+          : theme.palette.grey[50]
+    },
+    [`& .${classes.text}`]: {
+      color:
+        theme.palette.mode === "dark"
+          ? theme.palette.common.white
+          : theme.palette.common.black
+    }
+  };
+});
+
+/**
+ * how you used the components
+ */
+export default function App() {
+  const theme = useTheme();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StyledRoot className={classes.root} data-testid={testIds.root}>
+      <Typography className={classes.text} data-testid={testIds.text}>
+        This should have {theme.palette.mode} background
+      </Typography>
+    </StyledRoot>
   );
 }
-
-export default App;

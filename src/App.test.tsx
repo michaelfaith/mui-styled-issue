@@ -1,9 +1,21 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { ThemeProvider } from "@mui/material/styles";
+import { render } from "@testing-library/react";
+import darkTheme from "./darkTheme";
+import App, { classes } from "./App";
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe("App", () => {
+  it("should have black background with dark theme", () => {
+    const sut = render(
+      <ThemeProvider theme={darkTheme}>
+        <App />
+      </ThemeProvider>
+    );
+
+    expect(sut.queryByTestId(classes.root)).toHaveStyle(
+      `background-color: ${darkTheme.palette.grey[900]}`
+    );
+    expect(sut.queryByTestId(classes.text)).toHaveStyle(
+      `color: ${darkTheme.palette.common.white}`
+    );
+  });
 });
